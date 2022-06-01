@@ -23,6 +23,27 @@ c.Authenticator.delete_invalid_users = True
 c.JupyterHub.ip = '0.0.0.0'
 c.JupyterHub.port = 8000
 
-from jupyterhub.spawner import SimpleLocalProcessSpawner
+#-------------------Spawning Notebook Servers-------------------------------
+""" 
+Before using Docker spawner 
 
-c.JupyterHub.spawner_class = SimpleLocalProcessSpawner
+$ pythin3 -m pip install dockerspawner netifaces
+$ docker pull jupyterhub/singleuser
+
+Type the code below before using jupyterhub in the terminal or
+Make sure you have permission to use Docker! 
+
+$ sudo usermod -aG docker `whoami`  # Add me to group called docker
+$ newgrp docker  # Start new shell where docker group is activated
+
+"""
+from dockerspawner import DockerSpawner
+c.JupyterHub.spawner_class = DockerSpawner
+
+import netifaces
+docker_iface = netifaces.ifaddresses('docker0')
+c.JupyterHub.hub_ip = docker_iface[netifaces.AF_INET][0]['addr']
+
+#from jupyterhub.spawner import SimpleLocalProcessSpawner
+
+#c.JupyterHub.spawner_class = SimpleLocalProcessSpawner
