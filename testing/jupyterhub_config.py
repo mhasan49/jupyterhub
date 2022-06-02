@@ -3,10 +3,23 @@
 configures jupyterhub with dummyauthenticator and simplespawner
 to enable testing without administrative privileges.
 """
+from dockerspawner import DockerSpawner
+from jupyterhub.auth import DummyAuthenticator
+import netifaces
+
+
+# Returns the Folder containing extra python scripts
+import os
+import sys
+
+file_path = os.getcwd()
+sys.path.append(f'{file_path}/testing')
+from my_script import my_banner
+
+custom_text = my_banner("jupyterHub")
+custom_text.print_banner()
 
 c = get_config()  # noqa
-
-from jupyterhub.auth import DummyAuthenticator
 
 c.JupyterHub.authenticator_class = DummyAuthenticator
 
@@ -23,7 +36,7 @@ c.Authenticator.delete_invalid_users = True
 c.JupyterHub.ip = '0.0.0.0'
 c.JupyterHub.port = 8000
 
-#-------------------Spawning Notebook Servers-------------------------------
+# -------------------Spawning Notebook Servers-------------------------------
 """ 
 Before using Docker spawner 
 
@@ -37,13 +50,15 @@ $ sudo usermod -aG docker `whoami`  # Add me to group called docker
 $ newgrp docker  # Start new shell where docker group is activated
 
 """
-from dockerspawner import DockerSpawner
+
 c.JupyterHub.spawner_class = DockerSpawner
 
-import netifaces
 docker_iface = netifaces.ifaddresses('docker0')
 c.JupyterHub.hub_ip = docker_iface[netifaces.AF_INET][0]['addr']
 
-#from jupyterhub.spawner import SimpleLocalProcessSpawner
+# print(docker_iface)
+# from jupyterhub.spawner import SimpleLocalProcessSpawner
 
-#c.JupyterHub.spawner_class = SimpleLocalProcessSpawner
+# c.JupyterHub.spawner_class = SimpleLocalProcessSpawner
+
+from jupyterhub.spawner import Spawner, LocalProcessSpawner
