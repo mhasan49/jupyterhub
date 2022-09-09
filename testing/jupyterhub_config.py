@@ -62,3 +62,6 @@ c.DockerSpawner.cpu_guarantee = 0.5
 # c.JupyterHub.spawner_class = SimpleLocalProcessSpawner
 
 from jupyterhub.spawner import Spawner, LocalProcessSpawner
+
+c.DockerSpawner.image = 'jupyterhub/singleuser'
+
