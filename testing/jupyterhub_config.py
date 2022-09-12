@@ -12,12 +12,14 @@ script_dir = os.path.dirname(__file__)
 file_path = os.path.join(script_dir, '..', 'testing')
 sys.path.append(file_path)
 
-from my_script import my_banner
+from my_script import MyBanner
 
-custom_text = my_banner("jupyterHub")
+custom_text = MyBanner("jupyterHub")
 custom_text.print_banner()
 
+
 c = get_config()  # noqa
+
 
 c.JupyterHub.authenticator_class = DummyAuthenticator
 
