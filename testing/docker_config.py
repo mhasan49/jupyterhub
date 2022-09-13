@@ -7,6 +7,7 @@ import os
 import sys
 from dockerspawner import DockerSpawner
 from jupyterhub.auth import DummyAuthenticator
+
 script_dir = os.path.dirname(__file__)
 file_path = os.path.join(script_dir, '..', 'testing')
 sys.path.append(file_path)
