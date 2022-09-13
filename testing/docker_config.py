@@ -7,11 +7,12 @@ import os
 import sys
 from dockerspawner import DockerSpawner
 from jupyterhub.auth import DummyAuthenticator
-from my_script import MyBanner
-
 script_dir = os.path.dirname(__file__)
 file_path = os.path.join(script_dir, '..', 'testing')
 sys.path.append(file_path)
+from my_script import MyBanner
+
+
 custom_text = MyBanner("jupyterHub")
 custom_text.print_banner()
 
@@ -25,9 +26,11 @@ c.Authenticator.admin_users = {'admin1', 'admin2', 'admin3'}
 c.DummyAuthenticator.password = "admin12345"
 c.LocalAuthenticator.create_system_users = True
 c.Authenticator.delete_invalid_users = True
-
 c.JupyterHub.ip = '0.0.0.0'
 c.JupyterHub.port = 8000
+c.Spawner.start_timeout = 60 * 5
+c.Spawner.http_timeout = 60 * 5
+
 
 # ------------------------- Notebook Servers -----------------------
 
@@ -49,4 +52,5 @@ c.JupyterHub.spawner_class = DockerSpawner
 docker_iface = netifaces.ifaddresses('docker0')
 c.JupyterHub.hub_ip = docker_iface[netifaces.AF_INET][0]['addr']
 print(docker_iface)
+c.DockerSpawner.host_ip = '0.0.0.0'
 
