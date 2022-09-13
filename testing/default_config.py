@@ -112,6 +112,13 @@ c.JupyterHub.load_roles = [
     },
 ]
 # help(c.JupyterHub.load_roles)
+# c.JupyterHub.services = [
+#    {
+#        'name': 'cull-idle',
+#        'admin': True,
+#        'command': [sys.executable, '-m', 'jupyterhub_idle_culler', '--timeout=3600'],
+#    }
+#]
 
 #c.JupyterHub.load_roles = [
 #    {

@@ -48,7 +48,7 @@ async def start(self):
     self.port = random_port()
     # get environment variables,
     # several of which are required for configuring the single-user server
-    env = self.get_env()
+    env = self.get_env
     cmd = []
     # get jupyterhub command to run,
     # typically ['jupyterhub-singleuser']

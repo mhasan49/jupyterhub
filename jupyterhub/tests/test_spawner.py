@@ -419,7 +419,7 @@ async def test_spawner_env(db):
         "TEST_KEY": "value",
     }
     spawner = new_spawner(db, environment=env_overrides)
-    env = spawner.get_env()
+    env = spawner.get_env
     for key, value in env_overrides.items():
         assert key in env
         assert env[key] == value
@@ -428,7 +428,7 @@ async def test_spawner_env(db):
 async def test_hub_connect_url(db):
     spawner = new_spawner(db, hub_connect_url="https://example.com/")
     name = spawner.user.name
-    env = spawner.get_env()
+    env = spawner.get_env
     assert env["JUPYTERHUB_API_URL"] == "https://example.com/api"
     assert (
         env["JUPYTERHUB_ACTIVITY_URL"]
