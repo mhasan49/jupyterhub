@@ -8,14 +8,6 @@ import sys
 from dockerspawner import DockerSpawner
 from jupyterhub.auth import DummyAuthenticator
 
-script_dir = os.path.dirname(__file__)
-file_path = os.path.join(script_dir, '..', 'testing')
-sys.path.append(file_path)
-from my_script import MyBanner
-
-
-custom_text = MyBanner("jupyterHub")
-custom_text.print_banner()
 
 
 c = get_config()  # noqa
@@ -54,4 +46,3 @@ docker_iface = netifaces.ifaddresses('docker0')
 c.JupyterHub.hub_ip = docker_iface[netifaces.AF_INET][0]['addr']
 print(docker_iface)
 c.DockerSpawner.host_ip = '0.0.0.0'
-
