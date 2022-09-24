@@ -10,6 +10,7 @@ from jupyterhub.auth import DummyAuthenticator
 
 
 
+
 c = get_config()  # noqa
 
 c.JupyterHub.authenticator_class = DummyAuthenticator

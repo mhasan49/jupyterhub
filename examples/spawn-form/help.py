@@ -1,3 +1,12 @@
+"""sample jupyterhub config file for testing
+configures jupyterhub with dummyauthenticator and simplespawner
+to enable testing without administrative privileges.
+"""
+import shlex
+import os
+import sys
+from jupyterhub.auth import DummyAuthenticator
+
 """
 Example JupyterHub config allowing users to specify environment variables and notebook-server args
 """
@@ -27,11 +36,11 @@ class DemoFormSpawner(LocalProcessSpawner):
         options = {}
         options['env'] = env = {}
 
-        env_lines = formdata.get('env', [''])
-        for line in env_lines[0].splitlines():
-            if line:
-                key, value = line.split('=', 1)
-                env[key.strip()] = value.strip()
+  #      env_lines = formdata.get('env', [''])
+  #      for line in env_lines[0].splitlines():
+  #          if line:
+  #              key, value = line.split('=', 1)
+  #              env[key.strip()] = value.strip()
 
         arg_s = formdata.get('args', [''])[0].strip()
         if arg_s:
@@ -51,5 +60,28 @@ class DemoFormSpawner(LocalProcessSpawner):
             env.update(self.user_options['env'])
         return env
 
+    def print_user_options(self):
+        print(self.user_options.get('env'))
+        return
 
+c = get_config()  # noqa
+c.JupyterHub.authenticator_class = DummyAuthenticator
 c.JupyterHub.spawner_class = DemoFormSpawner
+
+
+
+c.JupyterHub.admin_access = True  # allow admin users to access single-user servers
+c.Authenticator.allowed_users = {'user1', 'user2', 'user3'}
+c.Authenticator.admin_users = {'admin1', 'admin2', 'admin3'}
+c.DummyAuthenticator.password = "admin12345"  # default password for all users
+c.LocalAuthenticator.create_system_users = True  # create users if they don't exist
+c.Authenticator.delete_invalid_users = True  # delete users that are no longer in the system
+c.JupyterHub.ip = '0.0.0.0'
+c.JupyterHub.port = 8000  # 8000 is the default port
+print('---------------------------------------------------')
+print('---------------------------------------------------')
+print(c.Spawner.user_options)
+
+print('---------------------------------------------------')
+print('---------------------------------------------------')
+

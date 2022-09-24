@@ -42,3 +42,4 @@ c.DockerSpawner.container_ip = "0.0.0.0"
 # made sure the directory exists
 # pylint: disable=bad-whitespace
 c.DockerSpawner.volumes = {'/volumes/jupyterhub/{username}/': '/home/jovyan/work'}
+
